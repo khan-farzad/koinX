@@ -43,10 +43,15 @@ const updateCoinData = async () => {
         );
       }
     );
+    console.log("last updated at", new Date(Date.now()))
   } catch (error) {
     console.log("error in fetching data", error);
   }
 };
+
+const hitServer = async () => {
+  const {data} = await axios.get('https://koinx-qx43.onrender.com/stats?coin=bitcoin')
+}
 
 const fetchCoinData = async (coin) => {
   const coinData = await client
@@ -78,6 +83,8 @@ const calculateDeviation = async (coin) => {
   );
 };
 
+// Currently on free-tier which spins down after 15 minutes of inactivity
+setInterval(hitServer, 10 * 60 * 1000);
 setInterval(updateCoinData, 2 * 60 * 60 * 1000);
 
 const validCoins = ["bitcoin", "ethereum", "matic-network"];
